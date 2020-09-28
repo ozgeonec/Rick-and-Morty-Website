@@ -4,8 +4,6 @@ import Head from 'next/head'
 import Link from "next/link";
 import React from "react";
 
-
-
 function HomePage({characters}) {
     return (
         <Layout>
@@ -28,7 +26,7 @@ export async function getStaticProps() {
     // will be passed to the page component as props/data fetching
     const data = await unfetch('https://rickandmortyapi.com/api/character/')
     const characters = await data.json()
-    //console.log(characters)
+
     return {
         props: {
             characters

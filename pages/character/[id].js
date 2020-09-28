@@ -6,10 +6,9 @@ function CharacterDetail({character}){
     return(
         <Layout>
             <Head>
-                <title>ana sayfa</title>
+                <title>{character.name}</title>
             </Head>
             <h1>{character.name}</h1>
-            <h2>Rick</h2>
             <figure>
                 <img src={character.image} alt={character.name} />
             </figure>
@@ -19,11 +18,10 @@ function CharacterDetail({character}){
 export async function getStaticPaths() {
     const data = await unfetch('https://rickandmortyapi.com/api/character')
     const characters = await data.json()
-
+    console.log(characters)
     const paths = characters.results.map(character => {
             return {params: {id: `${character.id}`}}
     })
-
     return {
         paths,
         fallback: false
@@ -32,12 +30,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({params}) {
     // will be passed to the page component as props/data fetching
-    const data = await unfetch('https://rickandmortyapi.com/api/character' + params.id)
+    const data = await unfetch('https://rickandmortyapi.com/api/character/' + params.id)
     const character = await data.json()
+    //console.log(character)
     return {
         props: {
              character
-        }
+        },
     }
 }
 
