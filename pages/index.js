@@ -1,8 +1,9 @@
 import Layout from '../components/layout'
 import unfetch from 'isomorphic-fetch'
 import Head from 'next/head'
-import Link from "next/link";
-import React from "react";
+import Link from "next/link"
+import React from "react"
+import slug from "slug"
 
 function HomePage({characters}) {
     return (
@@ -13,7 +14,8 @@ function HomePage({characters}) {
             <h1 className="title">THE RICK AND MORTY</h1>
             <ul>
                 {characters.results.map(character =>(<li key={character.id}>
-                    <Link href="/character/[id]" as={`/character/${character.id}`}>
+                    <Link href="/character/[slug]"
+                          as={`/character/${slug(character.name)}-${character.id}`}>
                        <a>{character.name}</a>
                     </Link>
                 </li>

@@ -1,6 +1,8 @@
-import Layout from "../../components/layout";
-import Head from "next/dist/next-server/lib/head";
-import unfetch from "isomorphic-fetch";
+import Layout from "../../components/layout"
+import Head from "next/dist/next-server/lib/head"
+import unfetch from "isomorphic-fetch"
+import slug from "slug"
+
 
 function CharacterDetail({character}){
     return(
@@ -20,7 +22,7 @@ export async function getStaticPaths() {
     const characters = await data.json()
     console.log(characters)
     const paths = characters.results.map(character => {
-            return {params: {id: `${character.id}`}}
+            return {params: {slug: `${slug(character.name)}-${character.id}`}}
     })
     return {
         paths,
@@ -29,8 +31,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params}) {
+    const id = params.slug.split("-").slice(-1)[0]
     // will be passed to the page component as props/data fetching
-    const data = await unfetch('https://rickandmortyapi.com/api/character/' + params.id)
+    const data = await unfetch('https://rickandmortyapi.com/api/character/' + id)
     const character = await data.json()
     //console.log(character)
     return {
