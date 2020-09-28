@@ -13,7 +13,7 @@ function HomePage({characters}) {
             <h1 className="title">THE RICK AND MORTY</h1>
             <ul>
                 {characters.results.map(character =>(<li key={character.id}>
-                    <Link href={}>
+                    <Link href="/character/[id]" as={`/character/${character.id}`}>
                        <a>{character.name}</a>
                     </Link>
 
