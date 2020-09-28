@@ -2,6 +2,8 @@ import Layout from '../components/layout'
 import unfetch from 'isomorphic-fetch'
 import Head from 'next/head'
 import Link from "next/link";
+import React from "react";
+
 
 
 function HomePage({characters}) {
@@ -16,21 +18,21 @@ function HomePage({characters}) {
                     <Link href="/character/[id]" as={`/character/${character.id}`}>
                        <a>{character.name}</a>
                     </Link>
-
-                </li>))}
+                </li>
+                ))}
             </ul>
         </Layout>
     )
 }
 export async function getStaticProps() {
     // will be passed to the page component as props/data fetching
-    const data = await unfetch("https://rickandmortyapi.com/api/character")
+    const data = await unfetch('https://rickandmortyapi.com/api/character/')
     const characters = await data.json()
     //console.log(characters)
     return {
         props: {
             characters
-        },
+        }
     }
 }
 

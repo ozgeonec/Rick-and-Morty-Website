@@ -2,24 +2,43 @@ import Layout from "../../components/layout";
 import Head from "next/dist/next-server/lib/head";
 import unfetch from "isomorphic-fetch";
 
-function CharacterDetail(){
+function CharacterDetail({character}){
     return(
         <Layout>
             <Head>
-                <title>krtr</title>
+                <title>ana sayfa</title>
             </Head>
+            <h1>{character.name}</h1>
+            <h2>Rick</h2>
+            <figure>
+                <img src={character.image} alt={character.name} />
+            </figure>
         </Layout>
     )
 }
+export async function getStaticPaths() {
+    const data = await unfetch('https://rickandmortyapi.com/api/character')
+    const characters = await data.json()
 
-export async function getStaticProps() {
-    // will be passed to the page component as props/data fetching
-    // const data = await unfetch("https://rickandmortyapi.com/api/character" +id)
-    // const character = await data.json()
-    //console.log(characters)
+    const paths = characters.results.map(character => {
+            return {params: {id: `${character.id}`}}
+    })
+
     return {
-        props: {
-            // characters
-        },
+        paths,
+        fallback: false
     }
 }
+
+export async function getStaticProps({params}) {
+    // will be passed to the page component as props/data fetching
+    const data = await unfetch('https://rickandmortyapi.com/api/character' + params.id)
+    const character = await data.json()
+    return {
+        props: {
+             character
+        }
+    }
+}
+
+export default CharacterDetail
